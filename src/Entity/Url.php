@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
@@ -11,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Table(name="url", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_F47645AE83360531", columns={"short_url"})})
  * @ORM\Entity(repositoryClass=UrlRepository::class)
- * @UniqueEntity(fields={"short_url"}, message="Short url must be unique.")
+ * @UniqueEntity(fields={"shortUrl"}, message="Short url must be unique.")
  * @ORM\HasLifecycleCallbacks
  */
 class Url
@@ -24,35 +25,37 @@ class Url
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Long url is mandatory.")
+     * @ORM\Column(name="long_url", type="text")
+     * @Assert\NotBlank(message="Long url is mandatory.", groups={"Default", "NewUrl"})
      * @Assert\Length(
      *      min = 5,
      *      max = 300,
      *      minMessage = "Long url cannot be less than {{ limit }} characters.",
      *      maxMessage = "Long url cannot be more than {{ limit }} characters.",
-     *      allowEmptyString = false
+     *      allowEmptyString = false,
+     *      groups={"Default", "NewUrl"}
      * )
      */
-    private $long_url;
+    private $longUrl;
 
     /**
-     * @ORM\Column(type="string", length=9, unique=true)
-     * @Assert\NotBlank(message="Short url is mandatory.")
+     * @ORM\Column(name="short_url", type="string", length=9, unique=true)
+     * @Assert\NotBlank(message="Short url is mandatory.", groups={"Default"})
      * @Assert\Length(
      *      min = 5,
      *      max = 9,
      *      minMessage = "Short url cannot be less than {{ limit }} characters.",
      *      maxMessage = "Short url cannot be more than {{ limit }} characters.",
-     *      allowEmptyString = false
+     *      allowEmptyString = false,
+     *      groups={"Default"}
      * )
      */
-    private $short_url;
+    private $shortUrl;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(name="date_created", type="datetime_immutable")
      */
-    private $date_created;
+    private $dateCreated;
 
     public function getId(): ?int
     {
@@ -61,36 +64,36 @@ class Url
 
     public function getLongUrl(): ?string
     {
-        return $this->long_url;
+        return $this->longUrl;
     }
 
-    public function setLongUrl(string $long_url): self
+    public function setLongUrl(string $longUrl): self
     {
-        $this->long_url = $long_url;
+        $this->longUrl = $longUrl;
 
         return $this;
     }
 
     public function getShortUrl(): ?string
     {
-        return $this->short_url;
+        return $this->shortUrl;
     }
 
-    public function setShortUrl(string $short_url): self
+    public function setShortUrl(string $shortUrl): self
     {
-        $this->short_url = $short_url;
+        $this->shortUrl = $shortUrl;
 
         return $this;
     }
 
     public function getDateCreated(): ?\DateTimeImmutable
     {
-        return $this->date_created;
+        return $this->dateCreated;
     }
 
-    public function setDateCreated(\DateTimeImmutable $date_created): self
+    public function setDateCreated(\DateTimeImmutable $dateCreated): self
     {
-        $this->date_created = $date_created;
+        $this->dateCreated = $dateCreated;
 
         return $this;
     }
@@ -102,6 +105,11 @@ class Url
     {
         if ($this->getDateCreated() instanceof \DateTimeImmutable === false) {
             $this->setDateCreated(new \DateTimeImmutable());
+        }
+
+        if (empty($this->getShortUrl())) {
+            $permitted = '0123456789abcdefghijklmnopqrstuvwxyz';
+            $this->setShortUrl(substr(str_shuffle($permitted), 5, 9));
         }
     }
 }

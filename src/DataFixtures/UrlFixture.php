@@ -12,7 +12,7 @@ class UrlFixture extends Fixture
     {
         $url = (new Url())
                 ->setLongUrl('http://google.com')
-                ->setShortUrl('xyz')
+                ->setShortUrl('abcde')
         ;
 
         $manager->persist($url);
