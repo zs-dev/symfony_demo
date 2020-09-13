@@ -1,9 +1,14 @@
-{{ form_start(form) }}
+{% extends 'base.html.twig' %}
 
-
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.longUrl) }}
+{% block body %}
+    {% for error in errors %}
+        {{ error }}
+    {% endfor %}
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.longUrl) }}
+            </div>
         </div>
-    </div>
-{{ form_end(form) }}
+    {{ form_end(form) }}
+{% endblock %}

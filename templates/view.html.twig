@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for error in errors %}
+        {{ error }}
+    {% endfor %}
+    {% if errors|length == 0 %}
+        Long Url:  {{ url.longUrl }}<br />
+        Short Url:  {{ url.shortUrl }}<br />
+        Date Created:  {{ url.dateCreated | date('Y-m-d H:i:s') }}<br />
+    {% endif %}
+
+{% endblock %}

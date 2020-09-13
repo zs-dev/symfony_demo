@@ -28,11 +28,12 @@ class Url
      * @ORM\Column(name="long_url", type="text")
      * @Assert\NotBlank(message="Long url is mandatory.", groups={"Default", "NewUrl"})
      * @Assert\Length(
-     *      min = 5,
      *      max = 300,
-     *      minMessage = "Long url cannot be less than {{ limit }} characters.",
      *      maxMessage = "Long url cannot be more than {{ limit }} characters.",
-     *      allowEmptyString = false,
+     *      groups={"Default", "NewUrl"}
+     * )
+     * @Assert\Url(
+     *    message = "The url is not a valid url.",
      *      groups={"Default", "NewUrl"}
      * )
      */
@@ -105,11 +106,6 @@ class Url
     {
         if ($this->getDateCreated() instanceof \DateTimeImmutable === false) {
             $this->setDateCreated(new \DateTimeImmutable());
-        }
-
-        if (empty($this->getShortUrl())) {
-            $permitted = '0123456789abcdefghijklmnopqrstuvwxyz';
-            $this->setShortUrl(substr(str_shuffle($permitted), 5, 9));
         }
     }
 }
