@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row error">
+            {% for error in errors %}
+               <div class="col-sm-12 text-center">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% if errors|length == 0 %}
+            <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-6 text-right">Long Url:</div>
+                  <div class="col-sm-6 text-left">{{ url.longUrl }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 text-right">Short Url:</div>
+                  <div class="col-sm-6 text-left">{{ url.shortUrl }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 text-right">Date Created:</div>
+                  <div class="col-sm-6 text-left">{{ url.dateCreated | date('Y-m-d H:i:s') }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 text-right">Link:</div>
+                  <div class="col-sm-6 text-left"><a href="{{ path('new_url',{'shortUrl': url.shortUrl }) }}" class="btn btn-primary btn-sm square" role="button">Link</a></div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
