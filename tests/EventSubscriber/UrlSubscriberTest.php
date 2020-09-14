@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * @coversDefaultClass App\EventSubscriber\UrlSubscriber
  */
-class UrlTest extends WebTestCase
+class UrlSubscriberTest extends WebTestCase
 {
     CONST REGEX = '/^[a-z\d]{5,9}$/';
 
