@@ -52,3 +52,5 @@
 /.web-server-pid
 .env.local
 .env.test.local
+/node_modules/
+/public/build

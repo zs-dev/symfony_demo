@@ -1,13 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% for error in errors %}
-        {{ error }}
-    {% endfor %}
-    {% if errors|length == 0 %}
-        Long Url:  {{ url.longUrl }}<br />
-        Short Url:  {{ url.shortUrl }}<br />
-        Date Created:  {{ url.dateCreated | date('Y-m-d H:i:s') }}<br />
-    {% endif %}
-
+    <div class="container-fluid">
+        <div class="row error">
+            {% for error in errors %}
+               <div class="col-sm-12 text-center">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% if errors|length == 0 %}
+            <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-6 text-right">Long Url:</div>
+                  <div class="col-sm-6 text-left">{{ url.longUrl }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 text-right">Short Url:</div>
+                  <div class="col-sm-6 text-left">{{ url.shortUrl }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 text-right">Date Created:</div>
+                  <div class="col-sm-6 text-left">{{ url.dateCreated | date('Y-m-d H:i:s') }}</div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
